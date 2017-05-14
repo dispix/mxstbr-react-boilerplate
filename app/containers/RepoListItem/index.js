@@ -5,11 +5,10 @@
  */
 
 import React from 'react';
-import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
 import { FormattedNumber } from 'react-intl';
 
-import { makeSelectCurrentUser } from 'containers/App/selectors';
+import github from 'hocs/github';
+
 import ListItem from 'components/ListItem';
 import IssueIcon from './IssueIcon';
 import IssueLink from './IssueLink';
@@ -52,6 +51,10 @@ RepoListItem.propTypes = {
   currentUser: React.PropTypes.string,
 };
 
-export default connect(createStructuredSelector({
-  currentUser: makeSelectCurrentUser(),
-}))(RepoListItem);
+function githubToProps(props) {
+  return {
+    currentUser: props.getRepos.username,
+  };
+}
+
+export default github(githubToProps)(RepoListItem);

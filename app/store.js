@@ -7,6 +7,7 @@ import { fromJS } from 'immutable';
 import { routerMiddleware } from 'react-router-redux';
 import createSagaMiddleware from 'redux-saga';
 import createReducer from './reducers';
+import { sagas as hocsSagas } from './hocs';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -54,6 +55,9 @@ export default function configureStore(initialState = {}, history) {
       });
     });
   }
+
+  // Registers the global sagas
+  hocsSagas.map(store.runSaga);
 
   return store;
 }

@@ -14,6 +14,7 @@ const loadModule = (cb) => (componentModule) => {
 
 export default function createRoutes(store) {
   // create reusable async injectors using getAsyncInjectors factory
+  // eslint-disable-next-line no-unused-vars
   const { injectReducer, injectSagas } = getAsyncInjectors(store);
 
   return [
@@ -22,15 +23,13 @@ export default function createRoutes(store) {
       getComponent(nextState, cb) {
         const importModules = Promise.all([
           import('containers/HomePage/reducer'),
-          import('containers/HomePage/sagas'),
           import('containers/HomePage'),
         ]);
 
         const renderRoute = loadModule(cb);
 
-        importModules.then(([reducer, sagas, component]) => {
+        importModules.then(([reducer, component]) => {
           injectReducer('home', reducer.default);
-          injectSagas(sagas.default);
 
           renderRoute(component);
         });
